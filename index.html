@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modo Paisagem Obrigatório</title>
+<link rel="stylesheet" href="Style/Page.css">
+
+<style>
+    body {
+        margin: 0;
+        background: #000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        min-height: 100vh; /* essencial para centralização vertical no celular */
+        font-family: Arial, sans-serif;
+        text-align: center;
+    }
+
+    /* IMAGEM MENOR */
+    .symbol {
+        width: clamp(90px, 18vw, 180px);
+        animation: pulse 2s ease-in-out infinite, glow 2s ease-in-out infinite;
+        filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.4));
+    }
+
+    /* Animação do brilho */
+    @keyframes glow {
+        0% { filter: drop-shadow(0 0 5px rgba(255, 0, 0, 1)); }
+        50% { filter: drop-shadow(0 0 25px rgba(255, 0, 0, 1)); }
+        100% { filter: drop-shadow(0 0 5px rgba(255, 0, 0, 1)); }
+    }
+
+    /* LOADING MENOR */
+    .loading-text {
+        margin-top: 10px;
+        margin-bottom: 2px; /* aproxima do contador */
+        color: white;
+        font-size: clamp(14px, 2.8vw, 24px);
+        letter-spacing: 6px;
+
+        animation:
+        pulse 2s ease-in-out infinite,
+        textGlow 2s ease-in-out infinite;
+    }
+
+    /* TIMER MENOR */
+    .timer {
+        margin-top: 0px; /* remove espaço */
+        color: white;
+        font-size: clamp(16px, 3.5vw, 28px);
+        letter-spacing: 6px;
+        font-weight: bold;
+
+        animation:
+        pulse 2s ease-in-out infinite,
+        textGlow 2s ease-in-out infinite;
+    }
+
+    @keyframes textGlow {
+        0% {
+            text-shadow: 0 0 5px #fff;
+        }
+
+        50% {
+            text-shadow:
+            0 0 10px #6f00ff,
+            0 0 20px #6f00ff,
+            0 0 30px #6f00ff;
+        }
+
+        100% {
+            text-shadow: 0 0 5px #fff;
+        }
+    }
+
+    .loading-text,
+    .timer{
+        position:relative;
+    }
+
+    .loading-text::after,
+    .timer::after{
+        content:attr(data-text);
+        position:absolute;
+        left:0;
+        top:0;
+        color:#6f00ff;
+        opacity:0.2;
+        animation:glitchText 2s infinite;
+    }
+
+    @keyframes glitchText{
+        0%{transform:translate(0)}
+        20%{transform:translate(-1px,1px)}
+        40%{transform:translate(1px,-1px)}
+        60%{transform:translate(-1px,-1px)}
+        80%{transform:translate(1px,1px)}
+        100%{transform:translate(0)}
+    }
+
+    /* PISCAR SUAVE */
+    @keyframes pulse {
+        0% { opacity: 0.5; }
+        50% { opacity: 1; }
+        100% { opacity: 0.5; }
+    }
+
+    /* --- RESPONSIVIDADE PARA CELULAR --- */
+    @media (max-width: 600px) {
+        /* Símbolo maior no celular */
+        .symbol {
+            width: 90%;           /* ocupa 90% da largura da tela */
+            max-width: 400px;     /* limite máximo */
+            height: auto;         /* mantém proporção */
+        }
+
+        /* Texto de "LOADING" maior e responsivo */
+        .loading-text {
+            font-size: 6vw;       /* escala com a tela */
+            margin-top: 25px;
+        }
+
+        /* Timer maior e responsivo */
+        .timer {
+            font-size: 7vw;       /* escala com a tela */
+            margin-top: 18px;
+            font-weight: bold;
+        }
+
+        /* Centraliza todo o conteúdo dentro do wrapper */
+        .wrapper {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;         /* ocupa altura total do body */
+        }
+
+        /* Tela de bloqueio */
+        #rotate-warning {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            color: white;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        /* Centralização */
+        .wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            gap: 20px;
+            width: 100%;
+        }
+
+        /* Imagem centralizada e responsiva */
+        .symbol {
+            width: clamp(180px, 18vw, 180px);
+            animation: pulse 2s ease-in-out infinite, glow 2s ease-in-out infinite;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.4));
+        }
+
+        @keyframes glow {
+            0% { filter: drop-shadow(0 0 5px rgba(76, 0, 255)); }
+            50% { filter: drop-shadow(0 0 25px rgba(76, 0, 255)); }
+            100% { filter: drop-shadow(0 0 5px rgba(76, 0, 255)); }
+        }   
+
+        /* Texto LOADING */
+        .loading-text {
+            font-size: 5vw;
+            letter-spacing: 4px;
+        }
+
+        /* Texto para virar a tela */
+        .rotate-text {
+            font-size: 4.5vw;
+            opacity: 0.8;
+            margin-top: 10px;
+        }
+
+        /* ATIVA SOMENTE EM CELULAR E EM RETRATO */
+        @media screen and (max-width: 768px) and (orientation: portrait) {
+            #rotate-warning {
+                display: flex;
+            }
+
+            body {
+                overflow: hidden; /* bloqueia scroll */
+            }
+        }
+    }
+</style>
+</head>
+    <body>
+        <div id="rotate-warning">
+            <div class="wrapper">
+                <img src="Imgs/simbolo.svg" class="symbol">
+                <div class="rotate-text">Vire o celular para continuar</div>
+            </div>
+        </div>
+            <div class="timer" id="timer"></div>
+        </div>
+
+        <script>
+            // Mês começa do 0 (0=Jan)
+            const targetDate = new Date(2026, 4, 24, 20, 0, 0).getTime();
+
+            function updateTimer() {
+                const now = new Date().getTime();
+                let difference = targetDate - now;
+
+                if (difference <= 0) {
+                    document.getElementById("timer").innerHTML = "00:00";
+                    return;
+                }
+
+                // Calcula horas
+                const hours = Math.floor(difference / (1000 * 60 * 60));
+                difference %= (1000 * 60 * 60);
+
+                // Calcula minutos
+                const minutes = Math.floor(difference / (1000 * 60));
+                difference %= (1000 * 60);
+
+                // Calcula segundos
+                const seconds = Math.floor(difference / 1000);
+
+                document.getElementById("timer").innerHTML =
+                    String(hours).padStart(2, '0') + ":" +
+                    String(minutes).padStart(2, '0') + ":" +
+                    String(seconds).padStart(2, '0');
+            }
+
+            setInterval(updateTimer, 1000);
+
+            let tocando = false; // flag para saber se está tocando
+
+            document.addEventListener("click", function () {
+            let player = document.getElementById("ytplayer");
+
+            if (!tocando) {
+                player.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+                player.contentWindow.postMessage('{"event":"command","func":"setVolume","args":[20]}', '*');
+                tocando = true;
+            } else {
+                player.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+                tocando = false;
+            }
+            });
+    </script>
+    </body>
+</html>

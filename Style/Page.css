@@ -1,0 +1,70 @@
+body {
+    margin: 0;
+    font-family: 'JujutsuKaisen';
+}
+
+@font-face {
+    font-family: 'JujutsuKaisen';
+    src: url('/Fonts/JujutsuKaisen.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Tela de bloqueio */
+#rotate-warning {
+    position: fixed;
+    inset: 0;
+    background: #000;
+    color: white;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+/* Centralização */
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 20px;
+    width: 100%;
+}
+
+/* Imagem centralizada e responsiva */
+.symbol {
+    width: clamp(180px, 18vw, 180px);
+    animation: pulse 2s ease-in-out infinite, glow 2s ease-in-out infinite;
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.4));
+}
+
+@keyframes glow {
+    0% { filter: drop-shadow(0 0 5px rgb(76, 0, 255)); }
+    50% { filter: drop-shadow(0 0 25px rgba(76, 0, 255)); }
+    100% { filter: drop-shadow(0 0 5px rgba(76, 0, 255)); }
+}   
+
+/* Texto LOADING */
+.loading-text {
+    font-size: 5vw;
+    letter-spacing: 4px;
+}
+
+/* Texto para virar a tela */
+.rotate-text {
+    font-size: 7vw;
+    opacity: 0.8;
+}
+
+/* ATIVA SOMENTE EM CELULAR E EM RETRATO */
+@media screen and (max-width: 768px) and (orientation: portrait) {
+    #rotate-warning {
+        display: flex;
+    }
+
+    body {
+        overflow: hidden; /* bloqueia scroll */
+    }
+}
